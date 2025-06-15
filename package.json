@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "mongoose": "^8.15.1",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "ajv": "^7.2.4"
+  }
+}
