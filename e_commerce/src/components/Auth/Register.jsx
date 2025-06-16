@@ -14,7 +14,7 @@ const Register = () => {
     console.log("🔴 Register button clicked");
 
     try {
-      const res = await axios.post("https://gshop-backend.onrender.com", {
+      const res = await axios.post("http://localhost:5000/api", {
         username,
         email,
         password,
