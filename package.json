@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-scripts": "^5.0.1", 
     "mongoose": "^8.15.1",
     "react-router-dom": "^7.6.2"
   },
