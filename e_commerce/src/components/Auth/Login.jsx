@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";  // use axios instance
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -10,12 +10,16 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://g-shop-backend.onrender.com", {
+      const res = await axiosInstance.post("/api/users/login", {
         email,
         password,
       });
+
+      console.log("Login response:", res.data);
+
       localStorage.setItem("token", res.data.accessToken);
       localStorage.setItem("user", JSON.stringify(res.data));
+
       navigate("/cart"); // Redirect to cart page after successful login
     } catch (err) {
       console.error("Login failed:", err);
