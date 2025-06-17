@@ -23,16 +23,21 @@ const handleSubmit = async (e) => {
       body: JSON.stringify(formData),
     });
 
-    const data = await res.json();
+  let data = {};
+try {
+  data = await res.json();
+} catch (err) {
+  console.warn("Response is not valid JSON.");
+}
 
-    if (res.ok) {
-      localStorage.setItem("token", data.token); // 👈 Save JWT here
-      alert("Login successful!");
-      window.location.href = "/"; // Redirect to homepage or dashboard
-    } else {
-      alert(data.message || "Login failed");
-    }
-  } catch (err) {
+if (res.ok) {
+  localStorage.setItem("token", data.token);
+  alert("Login successful!");
+  window.location.href = "/";
+} else {
+  alert(data?.message || "Login failed");
+}
+ catch (err) {
     console.error("Login error:", err);
   }
 };
