@@ -9,7 +9,7 @@ const UserOrders = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch("https://g-shop-backend.onrender.com", {
+        const res = await fetch("https://gshop-backendfin.onrender.com", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
