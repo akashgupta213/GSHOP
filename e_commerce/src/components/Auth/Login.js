@@ -1,60 +1,69 @@
 import React, { useState } from "react";
-import axiosInstance from "../axios";  // use axios instance
-import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+function Login() {
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axiosInstance.post("/api/users/login", {
-        email,
-        password,
-      });
-
-      console.log("Login response:", res.data);
-
-      localStorage.setItem("token", res.data.accessToken);
-      localStorage.setItem("user", JSON.stringify(res.data));
-
-      navigate("/cart"); // Redirect to cart page after successful login
-    } catch (err) {
-      console.error("Login failed:", err);
-      alert("Invalid email or password!");
-    }
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        <div>
-          <label>Password: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+  try {
+    const res = await fetch("https://g-shop-backend.onrender.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem("token", data.token); // 👈 Save JWT here
+      alert("Login successful!");
+      window.location.href = "/"; // Redirect to homepage or dashboard
+    } else {
+      alert(data.message || "Login failed");
+    }
+  } catch (err) {
+    console.error("Login error:", err);
+  }
+};
+
+
+  return (
+    <div className="auth-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit} className="auth-form">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
 
         <button type="submit">Login</button>
       </form>
     </div>
   );
-};
+}
 
 export default Login;
