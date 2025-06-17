@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://g-shop-backend.onrender.com", {
+      const res = await axios.post("/api/users/login", {
         email,
         password,
       });
