@@ -6,7 +6,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'your_secret_key_here';
+const JWT_SECRET = 'ae6efd45abc6020b8ace092fd986b59e07e5e3e4d0b87a2567151e1bc0241ee83db2039f5a2fc8ad0cb6257301ef38c2a9fcd91b4d081032731edb83c73fd076';
 
 // @route   POST /api/users/register
 // @desc    Register new user
