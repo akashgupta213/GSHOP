@@ -15,7 +15,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await fetch("https://g-shop-backend.onrender.com", {
+    const res = await fetch("/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
