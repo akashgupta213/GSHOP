@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Adjust if your backend uses a different base URL
+  baseURL: 'https://g-shop-backend.onrender.com', // Adjust if your backend uses a different base URL
   headers: {
     'Content-Type': 'application/json',
   },
