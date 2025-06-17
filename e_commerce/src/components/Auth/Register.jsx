@@ -1,23 +1,33 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import "./Auth.css";
+import axiosInstance from "../axios";  // use your axios.js instance
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const navigate = useNavigate(); // ✅ Moved INSIDE the component
+function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     console.log("🔴 Register button clicked");
 
     try {
-      const res = await axios.post("/api/users/register", {
-        username,
-        email,
-        password,
+      const res = await axiosInstance.post("/api/users/register", {
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
       });
 
       console.log("Response status:", res.status);
@@ -29,65 +39,43 @@ const Register = () => {
         alert("Unexpected response status.");
       }
     } catch (err) {
-      console.error("Registration error:", err?.response?.data || err.message);
+      console.error("Registration error:", err);
       alert("Registration failed. Try again.");
     }
   };
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "400px", margin: "auto" }}>
-      <h1>Register Component Loaded</h1>
+    <div className="auth-container">
       <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Username:</label>
-          <input
-            type="text"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Email:</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Password:</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Register
-        </button>
+      <form onSubmit={handleRegister} className="auth-form">
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <button type="submit">Register</button>
       </form>
     </div>
   );
-};
+}
 
 export default Register;
