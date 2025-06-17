@@ -11,37 +11,36 @@ function Login() {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-  let data = {};
-try {
-  data = await res.json();
-} catch (err) {
-  console.warn("Response is not valid JSON.");
-}
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (err) {
+        console.warn("Response is not valid JSON.");
+      }
 
-if (res.ok) {
-  localStorage.setItem("token", data.token);
-  alert("Login successful!");
-  window.location.href = "/";
-} else {
-  alert(data?.message || "Login failed");
-}
- catch (err) {
-    console.error("Login error:", err);
-  }
-};
-
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        alert("Login successful!");
+        window.location.href = "/";
+      } else {
+        alert(data?.message || "Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+    }
+  };
 
   return (
     <div className="auth-container">
